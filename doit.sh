@@ -15,7 +15,7 @@
 # clang warns about everything
 cc="gcc"
 
-options="-I. -m32 -fPIC -Wno-write-strings"
+options="-I. -m32 -fPIC -Wno-write-strings -I./cryptopp"
 	
 tmp="/$XDG_DATA_HOME/q3rally/q3rallysa/build";
 objects_car="$tmp/q_shared.o $tmp/q_math.o $tmp/com_printf.o $tmp/bg_wheel_forces.o $tmp/bg_pmove.o $tmp/bg_physics.o $tmp/bg_misc.o"
@@ -94,6 +94,8 @@ elif [ "$1" == "base" ]; then
 	$cc $options -c cracking.cpp -o objects_$1/cracking.opp
 	echo "##### COMPILE GSC_MATH.CPP #####"
 	$cc $options -o objects_$1/gsc_math.opp -c gsc_math.cpp
+	echo "##### COMPILE GSC_CRYPTOPP.CPP #####"
+	$cc $options -o objects_$1/gsc_cryptopp.opp -c gsc_cryptopp.cpp
 	echo "##### COMPILE JAVA_EMBED.C #####"
 	if [ "$java_enable" == "true" ]; then
 		$cc $options -o objects_$1/java_embed.opp -c java_embed.c $java_header
@@ -145,6 +147,14 @@ elif [ "$1" == "cod4_1_7" ]; then
 elif [ "$1" == "cod4_1_7_l" ]; then
 	constants="-D COD_VERSION=COD4_1_7_L"
 
+elif [ "$1" == "cryptopp" ]; then
+	echo "##### COMPILE CRYPTOPP #####"
+
+	cd cryptopp
+	make libcrypto32.a
+	cd ..
+
+	exit 1
 elif [ "$1" == "" ]; then
 	echo "##### Please specify a command line option #####"
 	exit 0
@@ -170,7 +180,7 @@ objects=""
 if [ -e objects_base ]; then
 	objects="$(ls objects_base/*.opp) "
 else
-	echo "##### ERROR: objects_base not found, you proably forgot to ./doit.sh base #####"
+	echo "##### ERROR: objects_base not found, you probably forgot to ./doit.sh base #####"
 	exit 0
 fi
 objects+="$(ls objects_$1/*.opp)"
@@ -180,7 +190,7 @@ fi
 if [ -e objects_car ]; then
 	objects+=" $(ls objects_car/*.opp)"
 fi
-$cc -m32 -shared -L/lib32 $mysql_link -o bin/lib$1.so -ldl $objects $java_lib $mysql_config
+$cc -m32 -shared -L/lib32 $mysql_link -o bin/lib$1.so -ldl $objects $java_lib $mysql_config -L./cryptopp -static -lcrypto32 
 
 if [ "$mysql_enable" == "false" ]; then
 	sed -i "/#define COMPILE_MYSQL 0/c\#define COMPILE_MYSQL 1" config.hpp

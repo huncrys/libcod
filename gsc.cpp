@@ -386,6 +386,23 @@ Scr_Function scriptFunctions[] =
 	{"sqrt"   , gsc_math_sqrt,    0},
 	{"sqrtInv", gsc_math_sqrtInv, 0},
 
+#if COMPILE_CRYPTOPP == 1
+    {"base64_encode", gsc_cryptopp_base64_encode, 0},
+    {"base64_decode", gsc_cryptopp_base64_decode, 0},
+    {"md5"			, gsc_cryptopp_md5          , 0},
+    {"sha1"			, gsc_cryptopp_sha1         , 0},
+    {"sha224"		, gsc_cryptopp_sha224       , 0},
+    {"sha256"		, gsc_cryptopp_sha256       , 0},
+    {"sha384"		, gsc_cryptopp_sha384       , 0},
+    {"sha512"		, gsc_cryptopp_sha512       , 0},
+    {"ripemd128"	, gsc_cryptopp_ripemd128    , 0},
+    {"ripemd160"	, gsc_cryptopp_ripemd160    , 0},
+    {"ripemd256"	, gsc_cryptopp_ripemd256    , 0},
+    {"ripemd320"	, gsc_cryptopp_ripemd320    , 0},
+    {"whirlpool"	, gsc_cryptopp_whirlpool    , 0},
+    {"sha256"		, gsc_cryptopp_sha256       , 0},
+#endif
+
 	{NULL, NULL, 0}
 };
 

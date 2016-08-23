@@ -5,3 +5,8 @@ libcod.tar
 *.so
 *.orig
 *.*~
+*.a
+.vscode
+GPATH
+GRTAGS
+GTAGS

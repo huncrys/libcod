@@ -55,6 +55,7 @@ extern "C" {
 #include "gsc_tcc.hpp"
 #include "gsc_utils.hpp"
 #include "gsc_math.hpp"
+#include "gsc_cryptopp.hpp"
 
 
 #include "cracking.hpp" // closer 900: nop

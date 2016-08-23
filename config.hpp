@@ -26,6 +26,7 @@
 #define COMPILE_CAR 0
 #define COMPILE_TCC 0
 #define COMPILE_UTILS 1
+#define COMPILE_CRYPTOPP 1
 
 #define COMPILE_RATELIMITER 1
 
