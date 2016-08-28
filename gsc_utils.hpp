@@ -77,6 +77,10 @@ void gsc_utils_getweaponhitlocmultiplier();
 void gsc_utils_setweaponhitlocmultiplier();
 void gsc_utils_getloadedweapons();
 
+void gsc_utils_time();
+void gsc_utils_strftime();
+void gsc_utils_strptime();
+
 #ifdef __cplusplus
 }
 #endif

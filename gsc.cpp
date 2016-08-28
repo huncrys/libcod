@@ -373,6 +373,9 @@ Scr_Function scriptFunctions[] =
 	{"getweaponhitlocmultiplier"      , gsc_utils_getweaponhitlocmultiplier   , 0},
 	{"setweaponhitlocmultiplier"      , gsc_utils_setweaponhitlocmultiplier   , 0},
 	{"getloadedweapons"               , gsc_utils_getloadedweapons            , 0},
+	{"time"                           , gsc_utils_time                        , 0},
+	{"strftime"                       , gsc_utils_strftime                    , 0},
+	{"strptime"                       , gsc_utils_strptime                    , 0},
 #endif
 
 #if COMPILE_TCC == 1

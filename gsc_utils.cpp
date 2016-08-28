@@ -5,6 +5,7 @@
 #include <dirent.h> // dir stuff
 #include <assert.h>
 #include <ctype.h> // toupper
+#include <ctime> // time, strftime, strptime
 
 #define MAX_LANGUAGES 16
 #define MAX_LANGUAGE_ITEMS 1024
@@ -1386,6 +1387,95 @@ void gsc_utils_getloadedweapons()
 	// 1456 - 1528 = locNone till locGun
 	// [id][weapon_mp][worldmodel][viewmodel]: displayname
 	//printf("[%d][%s][%s][%s]: %s\n", i, *(char**)w, *(const char **)(w + 436), *(char**)(w + 12), *(char**)(w + 4));
+}
+
+void gsc_utils_time() {
+	stackPushInt(std::time(NULL));
+}
+
+void gsc_utils_strftime() {
+	time_t unixtime;
+	struct tm *timeinfo;
+	char *format = "%Y-%m-%d %H:%M:%S";
+	char buffer[COD2_MAX_STRINGLENGTH];
+
+	stackGetParamString(0, &format);
+
+	if (!stackGetParamInt(1, (int*)&unixtime)) {
+		time(&unixtime);
+	}
+
+	timeinfo = localtime(&unixtime);
+
+	if (strftime(buffer, COD2_MAX_STRINGLENGTH, format, timeinfo)) {
+		stackPushString(buffer);
+	}
+	else {
+		stackPushUndefined();
+	}
+}
+
+void gsc_utils_strptime() {
+	struct tm timeinfo;
+	memset(&timeinfo, 0, sizeof(struct tm));
+	char *strtime;
+	char *format = "%Y-%m-%d %H:%M:%S";
+
+	if (!stackGetParamString(0, &strtime)) {
+		printf("scriptengine> wrongs args for: strtotime(strtime[, format = \"%Y-%m-%d %H:%M:%S\"])\n");
+		stackPushUndefined();
+		return;
+	}
+
+	stackGetParamString(1, &format);
+
+	if (strptime(strtime, format, &timeinfo)) {
+		stackPushInt(mktime(&timeinfo)); // returning unixtime for now
+		
+		// TODO: figure out how to push struct/array with string keys
+		/*
+		stackPushArray();
+		
+		stackPushString("tm_sec");
+		stackPushInt(timeinfo.tm_sec);
+		stackPushArrayLast();
+		
+		stackPushString("tm_min");
+		stackPushInt(timeinfo.tm_min);
+		stackPushArrayLast();
+		
+		stackPushString("tm_hour");
+		stackPushInt(timeinfo.tm_hour);
+		stackPushArrayLast();
+		
+		stackPushString("tm_mday");
+		stackPushInt(timeinfo.tm_mday);
+		stackPushArrayLast();
+
+		stackPushString("tm_mon");
+		stackPushInt(timeinfo.tm_mon);
+		stackPushArrayLast();
+		
+		stackPushString("tm_year");
+		stackPushInt(timeinfo.tm_year);
+		stackPushArrayLast();
+
+		stackPushString("tm_wday");
+		stackPushInt(timeinfo.tm_wday);
+		stackPushArrayLast();
+
+		stackPushString("tm_yday");
+		stackPushInt(timeinfo.tm_yday);
+		stackPushArrayLast();
+
+		stackPushString("tm_isdst");
+		stackPushInt(timeinfo.tm_isdst);
+		stackPushArrayLast();
+		*/
+	}
+	else {
+		stackPushUndefined();
+	}
 }
 
 #endif
