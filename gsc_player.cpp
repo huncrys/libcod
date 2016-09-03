@@ -1104,4 +1104,60 @@ void gsc_fpsnextframe()
 	stackReturnInt(0);
 }
 
+void gsc_findplayer() {
+	char *namepart;
+
+	if (!stackGetParams("s", &namepart)) {
+		printf("scriptengine> ERROR: gsc_findplayer(): param \"namepart\"[1] has to be a string!\n");
+		stackPushUndefined();
+		return;
+	}
+
+#if COD_VERSION == COD2_1_0
+	int offset = 0x0848B1CC;
+#elif COD_VERSION == COD2_1_2
+	int offset = 0x0849E6CC;
+#elif COD_VERSION == COD2_1_3
+	int offset = 0x0849F74C;
+#else
+#warning gsc_findplayer() got no working addresses
+	int offset = 0x0;
+#endif
+
+	int exact_entity, part_entity;
+	bool exact_found = false,
+		 part_found = false;
+
+	for (int i = 0; i < *(int*)(*(int*)(offset) + 8); i++) {
+		char *name = (char *)(PLAYERBASE(i) + 134216);
+		int len = strlen(name);
+		if (len) {
+			// Get name without colorcodes
+			char *plainname = (char*)malloc(len);
+			strcpy(plainname, name);
+			utils_stripcolorcodes(plainname);
+
+			if (strcasecmp(name, namepart) == 0 || strcasecmp(plainname, namepart) == 0) { // exact match takes precedence
+				exact_entity = gentities + gentities_size * i;
+				exact_found = true;
+				break;
+			}
+			if ((strcasestr(name, namepart) != NULL || strcasestr(plainname, namepart) != NULL) && !part_found) { // only the first partial match counts
+				part_entity = gentities + gentities_size * i;
+				part_found = true;
+			}
+		}
+	}
+
+	if (exact_found) {
+		stackPushEntity(exact_entity);
+	}
+	else if (part_found) {
+		stackPushEntity(part_entity);
+	}
+	else {
+		stackPushUndefined();
+	}
+}
+
 #endif

@@ -84,6 +84,9 @@ void gsc_utils_strptime();
 void gsc_utils_strreplace();
 void gsc_utils_strseconds();
 
+void utils_stripcolorcodes(char *str);
+void gsc_utils_stripcolors();
+
 #ifdef __cplusplus
 }
 #endif

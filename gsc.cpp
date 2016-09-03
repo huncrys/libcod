@@ -302,9 +302,10 @@ Scr_Function scriptFunctions[] =
 #endif
 
 #if COMPILE_PLAYER == 1
-	{"free_slot"                   , gsc_free_slot                         , 0},
-	{"kick2"                       , gsc_kick_slot                         , 0},
-	{"fpsnextframe"                , gsc_fpsnextframe                      , 0},
+	{"free_slot"                   , gsc_free_slot   , 0},
+	{"kick2"                       , gsc_kick_slot   , 0},
+	{"fpsnextframe"                , gsc_fpsnextframe, 0},
+	{"findplayer"                  , gsc_findplayer,   0},
 #endif
 
 #if COMPILE_MEMORY == 1
@@ -379,6 +380,7 @@ Scr_Function scriptFunctions[] =
 	{"strptime"                       , gsc_utils_strptime                    , 0},
 	{"strreplace"                     , gsc_utils_strreplace                  , 0},
 	{"strseconds"                     , gsc_utils_strseconds                  , 0},
+	{"stripcolors"                    , gsc_utils_stripcolors                 , 0},
 #endif
 
 #if COMPILE_TCC == 1

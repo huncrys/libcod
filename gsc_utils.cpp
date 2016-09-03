@@ -1488,7 +1488,7 @@ void gsc_utils_strreplace() {
 
 	if (!stackGetParams("sss", &cc_source, &cc_find, &cc_replace)) {
 		printf("scriptengine> wrongs args for: strreplace(source, find, replace)\n");
-		stackPushString("");
+		stackPushUndefined();
 		return;
 	}
 
@@ -1528,6 +1528,31 @@ void gsc_utils_strseconds() {
 	buffer[length - 2] = 0;
 
 	stackPushString(buffer);
+}
+
+void utils_stripcolorcodes(char *str) {
+	char *src = str, *dst = src;
+	
+	while (*src)
+		if (*src == '^' && isdigit(*(src + 1)))
+			src += 2;
+		else
+			*dst++ = *src++;
+	
+	*dst = '\0';
+}
+
+void gsc_utils_stripcolors() {
+	const char *str;
+
+	if (!stackGetParams("s", &str)) {
+		printf("scriptengine> wrong args for: stripcolors(str)\n");
+	}
+
+	char *result = (char*)malloc(strlen(str));
+	strcpy(result, str);
+	utils_stripcolorcodes(result);
+	stackPushString(result);
 }
 
 #endif

@@ -81,6 +81,7 @@ void gsc_entity_setbounds(int id);
 void gsc_free_slot();
 void gsc_kick_slot();
 void gsc_fpsnextframe();
+void gsc_findplayer();
 
 #ifdef __cplusplus
 }
