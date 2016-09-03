@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <ctype.h> // toupper
 #include <ctime> // time, strftime, strptime
-#include <iostream> // std:.string
+#include <iostream> // std::string
 
 #define MAX_LANGUAGES 16
 #define MAX_LANGUAGE_ITEMS 1024
@@ -1501,6 +1501,33 @@ void gsc_utils_strreplace() {
     }
 
 	stackPushString((char*) source.c_str());
+}
+
+void gsc_utils_strseconds() {
+	unsigned int days, hours, minutes, seconds;
+	char buffer[COD2_MAX_STRINGLENGTH];
+
+	if (!stackGetParams("i", &seconds)) {
+		printf("scriptengine> wrong args for: strseconds(seconds)\n");
+	}
+
+	seconds /= 60;
+	minutes = seconds % 60;
+	seconds /= 60;
+	hours = seconds % 24;
+	days = seconds / 24;
+
+	int length = 0;
+	if (days)    length += sprintf(buffer + length, "%d day%s, "   , days,    (days    != 1 ? "s" : ""));
+	if (hours)   length += sprintf(buffer + length, "%d hour%s, "  , hours,   (hours   != 1 ? "s" : ""));
+	if (minutes) length += sprintf(buffer + length, "%d minute%s, ", minutes, (minutes != 1 ? "s" : ""));
+	if (seconds || !length)
+		length += sprintf(buffer + length, "%d second%s, ", seconds, (seconds != 1 ? "s" : ""));
+
+	buffer[length - 1] = 0;
+	buffer[length - 2] = 0;
+
+	stackPushString(buffer);
 }
 
 #endif

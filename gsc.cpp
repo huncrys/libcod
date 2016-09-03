@@ -378,6 +378,7 @@ Scr_Function scriptFunctions[] =
 	{"strftime"                       , gsc_utils_strftime                    , 0},
 	{"strptime"                       , gsc_utils_strptime                    , 0},
 	{"strreplace"                     , gsc_utils_strreplace                  , 0},
+	{"strseconds"                     , gsc_utils_strseconds                  , 0},
 #endif
 
 #if COMPILE_TCC == 1
