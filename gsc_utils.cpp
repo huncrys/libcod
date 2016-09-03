@@ -1545,12 +1545,12 @@ void utils_stripcolorcodes(char *str) {
 
 void gsc_utils_stripcolors() {
 	const char *str;
+	char result[COD2_MAX_STRINGLENGTH];
 
 	if (!stackGetParams("s", &str)) {
 		printf("scriptengine> wrong args for: stripcolors(str)\n");
 	}
 
-	char *result = (char*)malloc(strlen(str));
 	strcpy(result, str);
 
 	utils_stripcolorcodes(result);

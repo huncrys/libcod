@@ -1128,12 +1128,13 @@ void gsc_findplayer() {
 	bool exact_found = false,
 		 part_found = false;
 
+	char plainname[32];
+
 	for (int i = 0; i < *(int*)(*(int*)(offset) + 8); i++) {
 		char *name = (char *)(PLAYERBASE(i) + 134216);
 		int len = strlen(name);
 		if (len) {
 			// Get name without colorcodes
-			char *plainname = (char*)malloc(len);
 			strcpy(plainname, name);
 			utils_stripcolorcodes(plainname);
 
