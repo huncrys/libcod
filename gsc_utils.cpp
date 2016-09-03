@@ -1511,11 +1511,12 @@ void gsc_utils_strseconds() {
 		printf("scriptengine> wrong args for: strseconds(seconds)\n");
 	}
 
-	seconds /= 60;
-	minutes = seconds % 60;
-	seconds /= 60;
-	hours = seconds % 24;
-	days = seconds / 24;
+	days = seconds / 86400;
+	seconds -= days * 86400;
+	hours = seconds / 3600;
+	seconds -= hours * 3600;
+	minutes = seconds / 60;
+	seconds -= minutes * 60;
 
 	int length = 0;
 	if (days)    length += sprintf(buffer + length, "%d day%s, "   , days,    (days    != 1 ? "s" : ""));
@@ -1551,6 +1552,7 @@ void gsc_utils_stripcolors() {
 
 	char *result = (char*)malloc(strlen(str));
 	strcpy(result, str);
+
 	utils_stripcolorcodes(result);
 	stackPushString(result);
 }
