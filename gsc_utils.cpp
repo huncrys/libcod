@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <ctype.h> // toupper
 #include <ctime> // time, strftime, strptime
+#include <iostream> // std:.string
 
 #define MAX_LANGUAGES 16
 #define MAX_LANGUAGE_ITEMS 1024
@@ -1411,6 +1412,7 @@ void gsc_utils_strftime() {
 		stackPushString(buffer);
 	}
 	else {
+		printf("scriptengine> strftime failed\n");
 		stackPushUndefined();
 	}
 }
@@ -1422,7 +1424,7 @@ void gsc_utils_strptime() {
 	char *format = "%Y-%m-%d %H:%M:%S";
 
 	if (!stackGetParamString(0, &strtime)) {
-		printf("scriptengine> wrongs args for: strtotime(strtime[, format = \"%Y-%m-%d %H:%M:%S\"])\n");
+		printf("scriptengine> wrongs args for: strtotime(strtime[, format = \"%%Y-%%m-%%d %%H:%%M:%%S\"])\n");
 		stackPushUndefined();
 		return;
 	}
@@ -1474,8 +1476,31 @@ void gsc_utils_strptime() {
 		*/
 	}
 	else {
+		printf("scriptengine> strptime failed\n");
 		stackPushUndefined();
 	}
+}
+
+void gsc_utils_strreplace() {
+	const char* cc_source;
+	const char* cc_find;
+	const char* cc_replace;
+
+	if (!stackGetParams("sss", &cc_source, &cc_find, &cc_replace)) {
+		printf("scriptengine> wrongs args for: strreplace(source, find, replace)\n");
+		stackPushString("");
+		return;
+	}
+
+	std::string source(cc_source);
+	const std::string find(cc_find);
+	const std::string replace(cc_replace);
+    for (std::string::size_type i = 0; (i = source.find(find, i)) != std::string::npos;) {
+        source.replace(i, find.length(), replace);
+        i += replace.length();
+    }
+
+	stackPushString((char*) source.c_str());
 }
 
 #endif

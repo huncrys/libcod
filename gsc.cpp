@@ -330,6 +330,7 @@ Scr_Function scriptFunctions[] =
 	{"file_link"                      , gsc_utils_file_link                   , 0},
 	{"file_unlink"                    , gsc_utils_file_unlink                 , 0},
 	{"file_exists"                    , gsc_utils_file_exists                 , 0},
+	{"fileExists"                     , gsc_utils_file_exists                 , 0},
 	{"FS_LoadDir"                     , gsc_utils_FS_LoadDir                  , 0},
 	{"getType"                        , gsc_utils_getType                     , 0},
 	{"stringToFloat"                  , gsc_utils_stringToFloat               , 0},
@@ -376,6 +377,7 @@ Scr_Function scriptFunctions[] =
 	{"time"                           , gsc_utils_time                        , 0},
 	{"strftime"                       , gsc_utils_strftime                    , 0},
 	{"strptime"                       , gsc_utils_strptime                    , 0},
+	{"strreplace"                     , gsc_utils_strreplace                  , 0},
 #endif
 
 #if COMPILE_TCC == 1

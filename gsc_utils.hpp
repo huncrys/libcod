@@ -81,6 +81,8 @@ void gsc_utils_time();
 void gsc_utils_strftime();
 void gsc_utils_strptime();
 
+void gsc_utils_strreplace();
+
 #ifdef __cplusplus
 }
 #endif
